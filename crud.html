@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="Assets/Styles/root.css">
+
+    <!-- Scripts / Components -->
+    <script type="module" src="Assets/Components/Header.js" defer></script>
+    <script type="module" src="Assets/Components/Footer.js" defer></script>
+
+    <!-- Title -->
+    <title>Web-programozás-1</title>
+</head>
+<body>
+    <my-header title="Web-programozás-1 Előadás Házi feladat">
+        <a href="index.html">Kezdőoldal</a>
+        <a href="crud.html" class="active-nav-link">CRUD táblázat</a>
+        <a href="html5.html">HTML5 elemek</a>
+        <a href="chart.html">Chart</a>
+        <a href="ajax.html">AJAX</a>
+        <a href="oojs.html">OOJS</a>
+        <a href="dist/index.html">REACT</a>
+    </my-header>
+    
+    <main style="display: grid; place-items: center;">
+        <input type="text" id="searchInput" placeholder="Keresés..." style="margin: 1rem;">
+        <p>A rendezéshez kattintson a fejléc mezőkre</p>
+        <table class="crud">
+            <thead>
+                <tr>
+                    <th onclick="sortTable('id')">Azonosító</th>
+                    <th onclick="sortTable('name')">Tanuló Neve</th>
+                    <th onclick="sortTable('average')">Átlag</th>
+                    <th onclick="sortTable('hours')">Óraszám</th>
+                    <th>Lehetőségek</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <form action="">
+            <h1>Új adat rögzítése:</h1>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label for="id">Azonosító</label>
+                <input type="text" id="id" name="id">
+                <label for="name">Tanuló Neve:</label>
+                <input type="text" id="name" name="name">
+                <label for="average">Átlag:</label>
+                <input type="number" step="0.01" id="average" name="average">
+                <label for="hours">Óraszám:</label>
+                <input type="number" id="hours" name="hours">
+                <button type="submit">Rögzítés</button>
+            </div>
+        </form>
+    </main>
+
+    <my-footer />
+    <script>
+        const values = [{
+            id: 'LTLNTG',
+            name: 'Fülöp Andor Zoltán',
+            average: 4.5,
+            hours: 100
+        }, 
+        {
+            id: 'GYT3DJ',
+            name: 'Szauter Milán',
+            average: 4.2,
+            hours: 120
+        }];
+
+        function checkInputs(inputs) {
+            if(inputs[0].value.length !== 6) {
+                alert('Az azonosító hossza nem megfelelő!');
+                return false;
+            }
+
+            if(inputs[1].value.length < 3 || inputs[1].value.length > 50) {
+                alert('A név hossza nem megfelelő!');
+                return false;
+            }
+
+            if(+inputs[2].value < 1 || +inputs[2].value > 5) {
+                alert('Az átlag nem megfelelő!');
+                return false;
+            }
+
+            if(+inputs[3].value < 1 || +inputs[3].value > 250) {
+                alert('Az óraszám nem megfelelő!');
+                return false;
+            }
+
+            return true;
+        }
+
+        let sortState = { column: null, ascending: true };
+
+        function renderTable() {
+            const table = document.querySelector('.crud');
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = '';
+
+            const filter = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = values.filter(v =>
+                v.id.toLowerCase().includes(filter) ||
+                v.name.toLowerCase().includes(filter) ||
+                v.average.toString().includes(filter) ||
+                v.hours.toString().includes(filter)
+            );
+
+            if (sortState.column) {
+                filtered.sort((a, b) => {
+                    let valA = a[sortState.column];
+                    let valB = b[sortState.column];
+
+                    if (typeof valA === 'string') valA = valA.toLowerCase();
+                    if (typeof valB === 'string') valB = valB.toLowerCase();
+
+                    if (valA < valB) return sortState.ascending ? -1 : 1;
+                    if (valA > valB) return sortState.ascending ? 1 : -1;
+                    return 0;
+                });
+            }
+
+            filtered.forEach((value, index) => {
+                const row = tbody.insertRow();
+                row.insertCell().textContent = value.id;
+                row.insertCell().textContent = value.name;
+                row.insertCell().textContent = value.average;
+                row.insertCell().textContent = value.hours;
+                row.insertCell().innerHTML = `
+                    <button onclick="editRow(${index}, this)">Szerkesztés</button>
+                    <button onclick="deleteRow(${index})">Törlés</button>
+                `;
+            });
+        }
+
+        function sortTable(column) {
+            if (sortState.column === column) {
+                sortState.ascending = !sortState.ascending;
+            } else {
+                sortState.column = column;
+                sortState.ascending = true;
+            }
+            renderTable();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderTable);
+
+
+        function saveRow(index, button) {
+            const table = document.querySelector('.crud');
+            const tbody = table.querySelector('tbody');
+            const row = tbody.rows[index];
+
+            const inputs = row.querySelectorAll('input');
+            if(!checkInputs(inputs)) {
+                return;
+            }
+
+            values[index] = {
+                id: inputs[0].value,
+                name: inputs[1].value,
+                average: inputs[2].value,
+                hours: inputs[3].value
+            };
+
+            button.textContent = 'Szerkesztés';
+            button.onclick = () => editRow(index, button);
+
+            renderTable();
+        }
+
+        function editRow(index, button) {
+            const table = document.querySelector('.crud');
+            const tbody = table.querySelector('tbody');
+
+            if(table.querySelector('input')) {
+                alert('Már szerkesztés alatt áll egy sor!');
+                return;
+            }
+
+            const row = tbody.rows[index];
+            for(let i = 0; i < row.cells.length - 1; i++) {
+                row.cells[i].innerHTML = `<input type="text" value="${row.cells[i].textContent}">`;
+            }
+
+            button.textContent = 'Mentés';
+            button.onclick = () => saveRow(index, button);
+        }
+
+        function deleteRow(index) {
+            values.splice(index, 1);
+            renderTable();
+        }
+
+        renderTable();
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const inputs = form.querySelectorAll('input');
+            if(!checkInputs(inputs)) {
+                return;
+            }
+
+            values.push({
+                id: inputs[0].value,
+                name: inputs[1].value,
+                average: inputs[2].value,
+                hours: inputs[3].value
+            });
+
+            renderTable();
+        });
+
+        const table = document.querySelector('.crud');
+        const thead = table.querySelector('thead');
+        const tbody = table.createTBody();
+
+        table.addEventListener('blur', (event) => {
+            const target = event.target;
+            if (target.tagName === 'TD') {
+                target.contentEditable = false;
+            }
+        });
+
+        table.addEventListener('keydown', (event) => {
+            const target = event.target;
+            if (target.tagName === 'TD' && event.key === 'Enter') {
+                target.contentEditable = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="Assets/Styles/root.css">
+
+    <!-- Scripts / Components -->
+    <script type="module" src="Assets/Components/Header.js" defer></script>
+    <script type="module" src="Assets/Components/Footer.js" defer></script>
+    <script src="Assets/Scripts/HTML5Elements.js" defer></script>
+
+    <!-- Title -->
+    <title>Web-programozás-1</title>
+</head>
+
+<body>
+    <my-header title="Web-programozás-1 Előadás Házi feladat">
+        <a href="index.html">Kezdőoldal</a>
+        <a href="crud.html">CRUD táblázat</a>
+        <a href="html5.html" class="active-nav-link">HTML5 elemek</a>
+        <a href="chart.html">Chart</a>
+        <a href="ajax.html">AJAX</a>
+        <a href="oojs.html">OOJS</a>
+        <a href="dist/index.html">REACT</a>
+    </my-header>
+
+
+    <main>
+        <section id="storage">
+            <h2>Web Storage</h2>
+            <input type="text" id="storeInput" placeholder="Írj be valamit...">
+            <button onclick="saveToStorage()">Mentés</button>
+            <button onclick="readFromStorage()">Olvasás</button>
+        </section>
+
+
+        <section id="worker">
+            <h2>Web Worker</h2>
+            <button onclick="startWorker()"> Számolás indítása </button>
+            <p id="workerResult"></p>
+        </section>
+
+
+        <section id="sse">
+            <h2>Server-Sent Events (SSE)</h2>
+            <p>(Ez csak szerveren működik, itt szimulált üzenet)</p>
+            <button onclick="simulateSSE()">Szimulált SSE</button>
+            <p id="sseData"></p>
+        </section>
+
+
+        <section id="geo">
+            <h2>Geolocation API</h2>
+            <button onclick="getLocation()">Mutasd a helyzetem</button>
+            <p id="geoOutput"></p>
+        </section>
+
+
+        <section id="drag">
+            <h2>Drag & Drop API</h2>
+            <div id="dragDiv" draggable="true" ondragstart="drag(event)"
+                style="width:100px;height:100px;background:red; padding: 5px;"></div>
+            <div id="dropZone" ondrop="drop(event)" ondragover="allowDrop(event)"
+                style="width:150px;height:150px;border:2px dashed white;margin-top:10px;"></div>
+        </section>
+
+
+        <section id="canvas">
+            <h2>Canvas</h2>
+            <canvas id="myCanvas" width="200" height="100"></canvas>
+        </section>
+
+
+        <section id="svg">
+            <h2>SVG</h2>
+            <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="#f0f0f0"/>
+                <circle cx="50" cy="50" r="30" fill="red" />
+                <circle cx="150" cy="50" r="20" fill="blue" />
+                <circle cx="100" cy="150" r="25" fill="green" />
+                <text x="50%" y="190" text-anchor="middle" font-size="14" fill="black">Random SVG</text>
+              </svg>
+              
+        </section>
+    </main>
+
+    <my-footer />
+</body>
+
+</html>

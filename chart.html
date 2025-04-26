@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="Assets/Styles/root.css">
+
+    <!-- Scripts / Components -->
+    <script type="module" src="Assets/Components/Header.js" defer></script>
+    <script type="module" src="Assets/Components/Footer.js" defer></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Title -->
+    <title>Web-programozás-1</title>
+
+    <style>
+        table {
+            margin: 2rem auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 20px;
+            border: 1px solid #333;
+            text-align: center;
+            cursor: pointer;
+        }
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+        canvas {
+            display: block;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <my-header title="Web-programozás-1 Előadás Házi feladat">
+        <a href="index.html">Kezdőoldal</a>
+        <a href="crud.html">CRUD táblázat</a>
+        <a href="html5.html">HTML5 elemek</a>
+        <a href="chart.html" class="active-nav-link">Chart</a>
+        <a href="ajax.html">AJAX</a>
+        <a href="oojs.html">OOJS</a>
+        <a href="dist/index.html">REACT</a>
+    </my-header>
+
+    <main>
+        <h1 style="text-align: center;">Táblázat és Diagram</h1>
+
+        <table id="data-table">
+            <tbody>
+                <tr><td>12</td><td>20</td><td>3</td><td>12</td><td>43</td></tr>
+                <tr><td>23</td><td>24</td><td>65</td><td>18</td><td>10</td></tr>
+                <tr><td>4</td><td>2</td><td>8</td><td>12</td><td>11</td></tr>
+                <tr><td>56</td><td>12</td><td>12</td><td>54</td><td>20</td></tr>
+                <tr><td>53</td><td>27</td><td>21</td><td>75</td><td>23</td></tr>
+            </tbody>
+        </table>
+
+        <canvas id="line-chart" width="600" height="400"></canvas>
+    </main>
+
+    <my-footer />
+
+    <script>
+        const table = document.getElementById('data-table');
+        const ctx = document.getElementById('line-chart').getContext('2d');
+
+        const labels = ['1', '2', '3', '4', '5'];
+
+        let chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Kiválasztott sor adatai',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    title: {
+                        display: true,
+                        text: 'Kattints egy táblázatsorra a megjelenítéshez'
+                    }
+                }
+            }
+        });
+
+        table.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('click', () => {
+                const values = Array.from(row.children).map(td => parseFloat(td.textContent));
+                chart.data.datasets[0].data = values;
+                chart.update();
+            });
+        });
+    </script>
+</body>
+</html>

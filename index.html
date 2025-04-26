@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="Assets/Styles/root.css">
+
+    <!-- Scripts / Components -->
+    <script type="module" src="Assets/Components/Header.js" defer></script>
+    <script type="module" src="Assets/Components/Footer.js" defer></script>
+
+    <!-- Title -->
+    <title>Web-programozás-1</title>
+</head>
+<body>
+    <header>
+        <my-header title="Web-programozás-1 Előadás Házi feladat">
+            <!-- A nav tag az egyedi komponensen belül van -->
+            <a href="index.html" class="active-nav-link">Kezdőoldal</a>
+            <a href="crud.html">CRUD táblázat</a>
+            <a href="html5.html">HTML5 elemek</a>
+            <a href="chart.html">Chart</a>
+            <a href="ajax.html">AJAX</a>
+            <a href="oojs.html">OOJS</a>
+            <a href="dist/index.html">REACT</a>
+        </my-header>
+    </header>
+
+    <div style="display: flex; min-height: 80vh;">
+        <aside style="width: 200px; padding: 1rem; border-right: 1px solid gray;">
+            <h2>Oldalsáv</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est aliquid harum amet in reprehenderit architecto, hic facilis accusamus ullam eaque ipsam dignissimos? Facilis sed autem asperiores aspernatur nam corporis!</p>
+        </aside>
+
+        <div id="content" style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+            <!-- Tartalmi rész, egyedi oldalanként -->
+            <div class="div-content">
+                <h1 style="text-align: center; font-size: 72px;">Welcome!<br>O(∩_∩)O</h1>
+                <p style="text-align: center;">Ez az oldal a Web-programozás-1 tárgy főoldala.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <my-footer />
+    </footer>
+</body>
+</html>
