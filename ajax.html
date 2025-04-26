@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="Assets/Styles/root.css">
+
+    <!-- Scripts / Components -->
+    <script type="module" src="Assets/Components/Header.js" defer></script>
+    <script type="module" src="Assets/Components/Footer.js" defer></script>
+    <script src="Assets/Scripts/ajax.js" defer></script>
+
+    <!-- Title -->
+    <title>Web-programozás-1</title>
+</head>
+<body>
+<my-header title="Web-programozás-1 Előadás Házi feladat">
+    <a href="index.html">Kezdőoldal</a>
+    <a href="crud.html">CRUD táblázat</a>
+    <a href="html5.html">HTML5 elemek</a>
+    <a href="chart.html">Chart</a>
+    <a href="ajax.html" class="active-nav-link">AJAX</a>
+    <a href="oojs.html">OOJS</a>
+    <a href="dist/index.html">REACT</a>
+</my-header>
+
+<main>
+    <section>
+        <h2>AJAX Alkalmazás</h2>
+        <div>
+            <h3>Adatok lekérése</h3>
+            <button onclick="readData()">Adatok lekérése</button>
+            <div id="read-output"></div>
+            <div id="stats-output"></div>
+        </div>
+
+        <hr>
+
+        <div>
+            <h3>Új rekord létrehozása</h3>
+            <input type="text" id="create-name" placeholder="Név (max 30)">
+            <input type="text" id="create-height" placeholder="Magasság">
+            <input type="text" id="create-weight" placeholder="Súly">
+            <button onclick="createRecord()">Létrehozás</button>
+            <div id="create-feedback"></div>
+        </div>
+
+        <hr>
+
+        <div>
+            <h3>Rekord módosítása</h3>
+            <input type="text" id="update-id" placeholder="ID">
+            <button onclick="getDataForId()">Adatok betöltése</button>
+            <br><br>
+            <input type="text" id="update-name" placeholder="Név (max 30)">
+            <input type="text" id="update-height" placeholder="Magasság">
+            <input type="text" id="update-weight" placeholder="Súly">
+            <button onclick="updateRecord()">Frissítés</button>
+            <div id="update-feedback"></div>
+        </div>
+
+        <hr>
+
+        <div>
+            <h3>Rekord törlése</h3>
+            <input type="text" id="delete-id" placeholder="ID">
+            <button onclick="deleteRecord()">Törlés</button>
+            <div id="delete-feedback"></div>
+        </div>
+    </section>
+</main>
+
+<my-footer />
+</body>
+</html>
